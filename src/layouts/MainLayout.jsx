@@ -8,9 +8,9 @@ function MainLayout() {
     const user = false;
     return (
         <>  
-            {/* <main className="content-container"> */}
+            <main className="main-container">
                 <Outlet />
-            {/* </main> */}
+            </main>
             <Footer />
         </>
     )

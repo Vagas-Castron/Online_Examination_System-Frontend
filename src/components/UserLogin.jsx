@@ -85,8 +85,8 @@ function UserLogin() {
 
     }
     return (
-        <div className="wrapper-container">
-            <div className='login-container'>
+        <div className="form-wrapper">
+            <div className='form-container login'>
                 <div className='login-header'>
                     <img src={logo} alt="company logo" width={135} height={135}/>
                 </div>
