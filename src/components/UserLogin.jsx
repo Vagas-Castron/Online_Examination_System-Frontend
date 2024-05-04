@@ -91,8 +91,10 @@ function UserLogin() {
                     <img src={logo} alt="company logo" width={135} height={135}/>
                 </div>
                 <form onSubmit={(e) => handleSubmit(e)} className="login-form">
-                    <div>
+                    <div className="error-container">
                         <h4 className='error'>{error && error.message}</h4>
+                    </div>
+                    <div>
                         <input 
                             className="form-input"
                             type="text"
@@ -119,6 +121,9 @@ function UserLogin() {
                         </button>
                     </div>
                 </form>
+                <div>
+
+                </div>
             </div>
         </div>
     )
