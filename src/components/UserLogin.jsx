@@ -114,7 +114,7 @@ function UserLogin() {
                             onChange={(e) => handleChange(e)}
                         />
                         <button
-                            className=" form-button"
+                            className=" login-button"
                             disabled={status === "submitting"}
                         >
                             {status === "submitting" ? "Logging in...": "Log in"}

@@ -16,7 +16,7 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<MainLayout />}>
           <Route index element={<UserLogin />}/>
-          <Route path="exam" element={<ExamPage />} loader={examLoader}/>
+          <Route path="exam" element={<ExamPage />} />
           <Route path="exam-creation" element={<ExamCreateLayout />} loader={adminLoader} />
           <Route path="results" element={<Results/>} errorElement={<Information byPassing={true} process={null}/>} loader={resultsLoader}/>
         </Route>
@@ -33,3 +33,5 @@ function App() {
 
 
 export default App
+
+// loader={examLoader}
