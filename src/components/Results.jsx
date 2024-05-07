@@ -18,7 +18,7 @@ export async function loader() {
 function Results() {
     const [confirmation, setConfirmation] = React.useState(false)
     const location = useLocation()
-    const { score, totalScore, exam } = location.state
+    const { score, totalScore, exam } = location?.state
     const [ clicked, setClicked ] = React.useState()
 
     const navigate = useNavigate()

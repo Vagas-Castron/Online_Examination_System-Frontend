@@ -59,7 +59,6 @@ function ExamCreateLayout() {
 
     return (
         <>
-            <Header />
             <main className='content-container'>
 
                     <ExamPreviewPage data={data} updateData={updateData}/>

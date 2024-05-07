@@ -1,5 +1,5 @@
 import React from "react"
-import  cancel  from "../../assets/cancel.svg"
+import  { TiDeleteOutline } from "react-icons/ti"
 
 
 const choiceControl = (option, optionSetter) => {
@@ -189,7 +189,7 @@ function ExamCreatePage({ data, updateData }) {
                                                 value={data.optionValue}
                                                 onChange={(e) => handleChange(index, e)} 
                                             />
-                                            <span className="remove-option-button" onClick={() => setOptionCount( count => valueControl(count - 1))}><img src={cancel}/></span>
+                                            <span className="remove-option-button" onClick={() => setOptionCount( count => valueControl(count - 1))}><TiDeleteOutline /></span>
 
                                         </div>
                                     ))}

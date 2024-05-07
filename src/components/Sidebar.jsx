@@ -32,7 +32,7 @@ export default function Sidebar() {
                     <span className="tooltip">Exam</span>
                 </li>
                 <li>
-                    <NavLink to="exam-create">
+                    <NavLink to="exam-creation">
                         <IoCreate size="25px" className="icon"/>
                         <span className="menu-item-name">Compose</span>
                     </NavLink>

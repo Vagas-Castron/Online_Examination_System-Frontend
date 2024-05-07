@@ -20,8 +20,8 @@ function App() {
           <Route element={<ContentLayout />}>
             <Route path="dashboard" element={<h1>Dashboard Goes Here</h1>} />
             <Route path="exam" element={<ExamPage />} />
-            <Route path="exam-creation" element={<ExamCreateLayout />} loader={adminLoader} />
-            <Route path="results" element={<Results/>} errorElement={<Information byPassing={true} process={null}/>} loader={resultsLoader}/>
+            <Route path="exam-creation" element={<ExamCreateLayout />}  />
+            <Route path="results" element={<Results/>}  />
             <Route path="user-management" element={<h1>User Managing Page</h1>} loader={adminLoader} />
           </Route>
       </Route>
@@ -40,3 +40,8 @@ function App() {
 export default App
 
 // loader={examLoader}
+
+//loader={adminLoader}
+//loader={resultsLoader}
+
+//errorElement={<Information byPassing={false} process={null}/>}
