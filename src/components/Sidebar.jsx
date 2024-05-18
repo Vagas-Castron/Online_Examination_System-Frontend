@@ -6,6 +6,7 @@ import { SiMicrosoftacademic } from "react-icons/si"
 import { FaUser } from "react-icons/fa"
 import { BsFillFileBarGraphFill } from "react-icons/bs"
 import { BsFileEarmarkBarGraphFill } from "react-icons/bs"
+import { TiThMenu } from "react-icons/ti";
 
 
 export default function Sidebar() {
@@ -14,7 +15,9 @@ export default function Sidebar() {
         <div className="sidebar-menu">
             <div className="top">
                 <span className="description">Menu</span>
-                <button className="menu-btn" id="toggleBtn"></button>
+                <button className="menu-btn" id="toggleBtn">
+                <TiThMenu />
+                </button>
             </div>
             <ul>
                 <li>

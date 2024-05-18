@@ -35,7 +35,7 @@ function ExamCreateLayout() {
             const updatedQuestionsWithOptions = updatedQuestionsWithIDs.map((question, index) => {
                 // If the question's ID is greater than the deleted question's ID,
                 // decrement the ID of each option
-                if (question.id !== newData.id) {
+                if (question.id >= newData.id) {
                     const updatedOptions = question.options.map(option => ({
                         ...option,
                         optionId: `${question.id - 1}${letters[index].toLocaleUpperCase()}` // Decrement optionId

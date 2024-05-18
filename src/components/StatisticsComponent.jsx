@@ -1,7 +1,7 @@
 import React from "react"
 
 
-function StatisticsComponent({ score, totalScore}) {
+function StatisticsComponent() {
     
     return (
         <>
@@ -19,12 +19,12 @@ function StatisticsComponent({ score, totalScore}) {
                                         a 15.9155 15.9155 0 0 1 0 -31.831"
                                     />
                                     <path class="circle"
-                                        stroke-dasharray={`${((totalScore-score )/ totalScore) * 100}, 100`}
+                                        stroke-dasharray={`${1 * 100}, 100`}
                                         d="M18 2.0845
                                         a 15.9155 15.9155 0 0 1 0 31.831
                                         a 15.9155 15.9155 0 0 1 0 -31.831"
                                     />
-                                    <text x="18" y="20.35" class="percentage">{totalScore-score}</text>
+                                    <text x="18" y="20.35" class="percentage">{50}</text>
                                     </svg>
                                 </div>
                                 <div>Wrong Answer</div>
@@ -39,12 +39,12 @@ function StatisticsComponent({ score, totalScore}) {
                                         a 15.9155 15.9155 0 0 1 0 -31.831"
                                     />
                                     <path class="circle"
-                                        stroke-dasharray={`${(score / totalScore) * 100}, 100`}
+                                        stroke-dasharray={`${0.5 * 100}, 100`}
                                         d="M18 2.0845
                                         a 15.9155 15.9155 0 0 1 0 31.831
                                         a 15.9155 15.9155 0 0 1 0 -31.831"
                                     />
-                                    <text x="18" y="20.35" class="percentage">{score}</text>
+                                    <text x="18" y="20.35" class="percentage">score</text>
                                     </svg>
                                 </div>
                                 <div>Correct Answer</div>
@@ -59,12 +59,12 @@ function StatisticsComponent({ score, totalScore}) {
                                         a 15.9155 15.9155 0 0 1 0 -31.831"
                                     />
                                     <path class="circle"
-                                        stroke-dasharray={`${(score / totalScore) * 100}, 100`}
+                                        stroke-dasharray={`${0.5 * 100}, 100`}
                                         d="M18 2.0845
                                         a 15.9155 15.9155 0 0 1 0 31.831
                                         a 15.9155 15.9155 0 0 1 0 -31.831"
                                     />
-                                    <text x="18" y="20.35" class="percentage">{((score / totalScore) * 100).toFixed(1)}%</text>
+                                    <text x="18" y="20.35" class="percentage">svsd</text>
                                     </svg>
                                 </div>
                                 <div>Score</div>

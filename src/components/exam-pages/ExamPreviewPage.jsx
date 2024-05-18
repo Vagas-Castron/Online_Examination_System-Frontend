@@ -1,5 +1,6 @@
 import React from "react"
-import { handleChange } from "./ExamCreatePage";
+import { FaArrowCircleRight } from "react-icons/fa"
+// import { handleChange } from "./ExamCreatePage";
 
 
 
@@ -100,38 +101,27 @@ function ExamPreviewPage({ data, updateData }) {
                                
                    </div> */}
                 <div className="question-container">
-                <div>
-                    <textarea 
-                        id="auto-resize-textarea"
-                        name="question" 
-                        rows={1}
-                        value={qn.question} 
-                        placeholder="Enter Question" 
-                        autoFocus={true}
-                        onChange={(e) => handleChange(null, e)}
-                    />
-                </div>
+                    <div className="question">
+                        <span>{qn.id}.</span>
+                        <div>{qn.question}</div>
+                    </div>
                     {/* <div className="question"><span>{qn.id}.</span><span>{ qn.question }</span></div> */}
                     <div className="option-container">
-                        <div className="choice-options">
                             {option(qn, optionCheckbox)}
-                        </div>
-                        <span className="edit-button" onClick={(e) => addOPtion(e)}>Add Option</span><br/>
                     </div>
                     <div className="edit-delete-btns">  
                         <span className="delete-button" onClick={() => handleClick(index)}>delete</span>
                     </div>
+                    <div className="point-container"><span>{qn.points} points</span></div>
                 </div>
-                <div className="point-container"><span>{qn.points} points</span></div>
             </section>
         )
     })
 
     return (
         <>
-                    {question}
-                   
-            {/* {questionList.length > 0 && <hr/>} */}
+            {question}
+            <button className="form-button" onClick={(e) => handleSubmit(e) }> <FaArrowCircleRight size="1.5em"/></button>
         </>
     )
 }

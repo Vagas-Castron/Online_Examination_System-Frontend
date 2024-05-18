@@ -1,5 +1,6 @@
 import React from "react"
 import  { TiDeleteOutline } from "react-icons/ti"
+import { FaArrowCircleUp } from "react-icons/fa"
 
 
 const choiceControl = (option, optionSetter) => {
@@ -26,45 +27,26 @@ function valueControl(value){
     }
 }
 
-
-export function handleChange(index, event){
-        
-    const {name, type, value} = event.target
-    setQuestion(prevState => {
-
-        const updatedOptions = [...prevState.options]
-        let updatedChoiceCount = prevState.choiceCount
-            if(index !== null){
-                updatedOptions[index] = {
-                    ...updatedOptions[index],
-                    [name]: type === "checkbox" ? !updatedOptions[index].truthness: value
-                }
-                if(type === "checkbox"){
-                    updatedChoiceCount = updatedOptions[index].truthness? prevState.choiceCount++
-                                                                        : prevState.choiceCount--
-                }
+export function questionExistCheck(question, questionList){
+    if(questionList){
+        return questionList.some( obj => {
+            console.log(obj.id)
+            console.log(question.id)
+            if(obj.id === question.id && obj.question === question.question){
+                return true
+            }else {
+                return false
             }
-        
-
-        return {
-            ...prevState,
-            options: updatedOptions,
-            choiceCount: updatedChoiceCount,
-            question: name === "question"? value: prevState.question,
-            points: name === "points"? value: prevState.points,
         }
-
-    })
-    if(name === "optionCount"){
-        setOptionCount(valueControl(value))
+        )
     }
-    
 }
+
 
 
 function ExamCreatePage({ data, updateData }) {
     const [optionCount, setOptionCount] = React.useState(1)
-    const [questionList, setQuestionList] = React.useState([])
+    const [questionList, setQuestionList] = React.useState()
     const [question, setQuestion] = React.useState({
         id: 1,
         points: 1, 
@@ -72,6 +54,7 @@ function ExamCreatePage({ data, updateData }) {
         choiceCount: 0,
         options: [],
     });
+    
 
     // Function to create the default options array
     const createOptions = (initialize) => {
@@ -94,22 +77,34 @@ function ExamCreatePage({ data, updateData }) {
         return newOptions
     }
 
-    console.log(question)
+    // console.log(question)
     React.useEffect(() => {
         setQuestion(prevQuestion => ({
             ...prevQuestion,
             choiceCount: 0,
             options: createOptions(false),
         }
-    ),[])
+        ))
 
+        console.log(!questionExistCheck(question, questionList))
+        
+        if(!questionExistCheck(question, questionList)){
+            // handleSubmit()
+        // setQuestionList(prevList =>  {
+        //     if(prevList){
+            //             return [...prevList, question]
+            //         }
+            // })
+        }
+        
         const textarea = document.querySelector('#auto-resize-textarea');
-
+        
         function handleTextareaInput() {
             this.style.height = 'auto';
             this.style.height = this.scrollHeight + 'px';
         }
-
+        
+        
         textarea.addEventListener('input', handleTextareaInput);
         
         return () => {
@@ -118,9 +113,54 @@ function ExamCreatePage({ data, updateData }) {
             }
         }
     }, [optionCount]);
+            
+            console.log(questionList)
+    function handleChange(index, event){
+        
+        const {name, type, value} = event.target
+        setQuestion(prevState => {
+    
+            const updatedOptions = [...prevState.options]
+            let updatedChoiceCount = prevState.choiceCount
+                if(index !== null){
+                    updatedOptions[index] = {
+                        ...updatedOptions[index],
+                        [name]: type === "checkbox" ? !updatedOptions[index].truthness: value
+                    }
+                    if(type === "checkbox"){
+                        updatedChoiceCount = updatedOptions[index].truthness? prevState.choiceCount++
+                                                                            : prevState.choiceCount--
+                    }
+                }
+            
+    
+            return {
+                ...prevState,
+                options: updatedOptions,
+                choiceCount: updatedChoiceCount,
+                question: name === "question"? value: prevState.question,
+                points: name === "points"? value: prevState.points,
+            }
+    
+        })
+        if(name === "optionCount"){
+            setOptionCount(valueControl(value))
+        }
+
+        // console.log(questionExistCheck(question, questionList))
+
+        // setQuestionList( prevList => {
+        //     if(questionExistCheck(question, [...prevList])){
+        //         console.log("included")
+        //     }else{
+        //         console.log("add new")
+        //     }
+        // })
+        
+    }
 
     
-    console.log(question.choiceCount)
+    // console.log(question.choiceCount)
 
     function addOPtion(event){
         setOptionCount( count => count + 1)
@@ -128,11 +168,10 @@ function ExamCreatePage({ data, updateData }) {
 
 
     function handleSubmit(event){
-        event.preventDefault()
-        console.log(question)
-        setQuestionList(prevList => [...prevList, question])
+        event?.preventDefault()
+        // console.log(question)
         updateData(question)
-        
+       
         setQuestion(prevQuestion => {
             let updateId = prevQuestion.id + 1
             return {
@@ -144,66 +183,84 @@ function ExamCreatePage({ data, updateData }) {
             }
         })
         setOptionCount(1)
+        setQuestionList(prevList =>{
+            if(prevList){
+                return [...prevList, question]
+            }else{
+                return [question]
+            }
+        } )
     }  
 
     // console.log(question)
     return (
         <>
-                        <section className="question-section">
-                            <div className="point-container point-container-uniq">
-                            <label>
-                                <input type="number" name="points" value={question.points} onChange={(e) => handleChange(null, e)}/>
-                                <span> Points</span>
-                            </label>
-                            </div>
-                            <div className="question-container">
+            {/* <div className="question-section">
+                <form action="" className="question-form">
+                    <div className="question-container">
+                        <div className="question">
+                            <span>{question.id}</span>
+                            <span>{question.question}</span>
+                            <div className="option-container"></div>
+                        </div>
+                    </div>
+                    </form>
+                </div> */}
+            <button className="form-button" onClick={(e) => handleSubmit(e) }> <FaArrowCircleUp size="1.5em"/></button>
+            <section className="question-section">
+                <div className="point-container point-container-uniq">
+                <label>
+                    <input type="number" name="points" value={question.points} onChange={(e) => handleChange(null, e)}/>
+                    <span> Points</span>
+                </label>
+                </div>
+                <div className="question-container">
+                    <div>
+                        <textarea 
+                            id="auto-resize-textarea"
+                            name="question" 
+                            rows={1}
+                            value={question.question} 
+                            placeholder="Enter Question" 
+                            autoFocus={true}
+                            onChange={(e) => handleChange(null, e)}
+                        />
+                    </div>
+                    {/* <div>
+                        <select name="" id="">
+                            <option value="">Multiple choice</option>
+                            <option value="">Text</option>
+                        </select>
+                    </div>
+                    <div className="option-container">
+                        <input className="noncheckbox" type="text"/>
+                    </div> */}
+                    <div className="option-container">
+                        {question.options.map((data, index) => (
+                            <div className="option" key={`option-${data.optionId}`}>
                                 <div>
-                                    <textarea 
-                                        id="auto-resize-textarea"
-                                        name="question" 
-                                        rows={1}
-                                        value={question.question} 
-                                        placeholder="Enter Question" 
-                                        autoFocus={true}
-                                        onChange={(e) => handleChange(null, e)}
-                                    />
+                                    <input type="checkbox" name="truthness" checked={data.truthness} onChange={(e) => handleChange(index, e)}/>
                                 </div>
-                                {/* <div>
-                                    <select name="" id="">
-                                        <option value="">Multiple choice</option>
-                                        <option value="">Text</option>
-                                    </select>
-                                </div>
-                                <div className="option-container">
-                                    <input className="noncheckbox" type="text"/>
-                                </div> */}
-                                <div className="option-container">
-                                    {question.options.map((data, index) => (
-                                        <div className="option" key={`option-${data.optionId}`}>
-                                            <div>
-                                                <input type="checkbox" name="truthness" checked={data.truthness} onChange={(e) => handleChange(index, e)}/>
-                                            </div>
-                                            <input 
-                                                className="noncheckbox"
-                                                id="myInput"
-                                                type="text" 
-                                                name="optionValue" 
-                                                placeholder={`Option ${(index + 1)}`}
-                                                value={data.optionValue}
-                                                onChange={(e) => handleChange(index, e)} 
-                                            />
-                                            <span className="remove-option-button" onClick={() => setOptionCount( count => valueControl(count - 1))}><TiDeleteOutline /></span>
+                                <input 
+                                    className="noncheckbox"
+                                    id="myInput"
+                                    type="text" 
+                                    name="optionValue" 
+                                    placeholder={`Option ${(index + 1)}`}
+                                    value={data.optionValue}
+                                    onChange={(e) => handleChange(index, e)} 
+                                />
+                                <span className="remove-option-button" onClick={() => setOptionCount( count => valueControl(count - 1))}><TiDeleteOutline /></span>
 
-                                        </div>
-                                    ))}
-                                    <span className="edit-button" onClick={(e) => addOPtion(e)}>Add Option</span><br/>
-                                </div>
                             </div>
-                            <div className="edit-delete-btns">  
-                                <span className="delete-button" onClick={() => handleClick(index)}>delete</span>
-                            </div>
-                        </section>
-                <button className="form-button" onClick={(e) => handleSubmit(e) }>Add Question</button>
+                        ))}
+                        <span className="edit-button" onClick={(e) => addOPtion(e)}>Add Option</span><br/>
+                    </div>
+                </div>
+                <div className="edit-delete-btns">  
+                    <span className="delete-button" onClick={() => handleClick(index)}>delete</span>
+                </div>
+            </section>
         </>
     );
 }

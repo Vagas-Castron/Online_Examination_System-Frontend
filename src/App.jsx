@@ -10,6 +10,9 @@ import ExamPage, { loader as examLoader} from "./components/exam-pages/ExamPage"
 import './style.css'
 import ContentLayout from "./layouts/ContentLayout"
 import ExamCreationOptions from "./components/ExamCreationOptions"
+import AllExamcontainer, {loader as allExamLoader} from "./components/AllExamcontainer"
+import AllUsersContainer, {loader as allUserLoader} from "./components/AllUsersContainer"
+import {  action as userAction } from "./components/NewUserForm"
 
 // loader={examLoader}
 function App() {
@@ -23,10 +26,10 @@ function App() {
             <Route path="exam" element={<ExamPage />} />
             <Route path="exam-creation" element={<ExamCreationOptions />}  />
             <Route path="exam-creation/new-exam" element={<ExamCreateLayout />}  />
-            <Route path="exam-creation/edit-exam" element={<h1>edit exam creation</h1>}  />
+            <Route path="exam-creation/all-exam" element={<AllExamcontainer/>} loader={allExamLoader} />
             <Route path="exam-creation" element={<ExamCreateLayout />}  />
             <Route path="results" element={<Results/>}  />
-            <Route path="user-management" element={<h1>User Managing Page</h1>} loader={adminLoader} />
+            <Route path="user-management" element={<AllUsersContainer />} loader={allUserLoader} action={userAction} />
           </Route>
       </Route>
       

@@ -37,7 +37,7 @@ export async function authentication( userCredentials ){
   const jsonData = {"username": username, "password": password}
 
   try {
-      const response = await fetch('http://192.168.0.145:80/api/login.php', {
+      const response = await fetch('http://localhost:8000/api/users/auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -46,11 +46,7 @@ export async function authentication( userCredentials ){
       });
 
       const data = await response.json()
-      // console.log(data)
-
-      if(!data.success){
-        throw { message: data.message}
-      }
+      console.log(data)
       return data
     
   }catch (error) {

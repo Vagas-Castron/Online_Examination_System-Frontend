@@ -18,35 +18,35 @@ export async function loader() {
 function Results() {
     const [confirmation, setConfirmation] = React.useState(false)
     const location = useLocation()
-    const { score, totalScore, exam } = location?.state
+    // const { score, totalScore, exam } = location?.state
     const [ clicked, setClicked ] = React.useState()
 
     const navigate = useNavigate()
 
-    const answers = exam.map((exam, index) => {
-        const options = exam.options.map((option, optionIndex) => {
-            if (option.truthness) {
-                return (<li key={`option-${optionIndex}`}>{option.optionValue}</li>)
-            } else {
-                return null;
-            }
-        });
+    // const answers = exam.map((exam, index) => {
+    //     const options = exam.options.map((option, optionIndex) => {
+    //         if (option.truthness) {
+    //             return (<li key={`option-${optionIndex}`}>{option.optionValue}</li>)
+    //         } else {
+    //             return null;
+    //         }
+    //     });
     
-        return (
-            <>
-                {
+    //     return (
+    //         <>
+    //             {
                     
-                }
-            <div className="question-section">
-                <div className="question-container">
-                    <div className="question"><span>{exam.id}.</span><span className="qn-span">{exam.question}</span></div>
-                    <ul className="option-container">{options}</ul>
-                </div>
-                <hr/>
-            </div>
-            </>
-        );
-    });
+    //             }
+    //         <div className="question-section">
+    //             <div className="question-container">
+    //                 <div className="question"><span>{exam.id}.</span><span className="qn-span">{exam.question}</span></div>
+    //                 <ul className="option-container">{options}</ul>
+    //             </div>
+    //             <hr/>
+    //         </div>
+    //         </>
+    //     );
+    // });
 
     function logUserOut(){
         clearData()
@@ -64,8 +64,8 @@ function Results() {
 
     return(
         <div className="result-container">
-            {confirmation? <Information setConfirmation={setConfirmation} action={logUserOut} byPassing={false} process={"log out"}/>: ""}
-            <StatisticsComponent score={score} totalScore={totalScore}/>
+            {/* {confirmation? <Information setConfirmation={setConfirmation} action={logUserOut} byPassing={false} process={"log out"}/>: ""} */}
+            <StatisticsComponent/>
             <div className="question-compose-form">
                 <div>
                     <header 

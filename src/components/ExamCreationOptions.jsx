@@ -8,8 +8,8 @@ export default function ExamCreationOptions(){
             <Link to="new-exam">
                 <span>New Exam</span>
             </Link>
-            <Link to="Edit-exam">
-                <span>Edit Exam</span>
+            <Link to="all-exam">
+                <span>All Exams</span>
             </Link>
         </div>
     )

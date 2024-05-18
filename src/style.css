@@ -6,8 +6,11 @@
 
 :root {
     --bg-color: rgba(0, 139, 139, 0.089);
+    --header-bg-color: #666565;
     --footer-bg-color: rgba(0, 0, 139, 0.815);
     --font-color: whitesmoke;
+    --main-color: #317a9c;
+    --sidebar-bg-color: #12171e;
 }
 
 body {
@@ -34,7 +37,7 @@ header {
     padding: 1rem 2rem;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.151);
     z-index: 1;
-    background-color: #666565;
+    background-color: var(--header-bg-color);
     /* background-color: rgb(230, 255, 255); */
 }
 
@@ -68,11 +71,12 @@ footer {
 
 }
 
-.form-container input{
+.form-container input, .form-container select{
     width: 100%;
     font-size: 16px;
     padding: 0.75rem;
     margin-top: 16px;
+    background-color: #dddddd;
     border: none;
     outline: none;
 }
@@ -95,8 +99,47 @@ footer {
     margin: 0 auto;
 }
 
-.login-form{
+.user-form{
     width: 70%;
+}
+
+.floating-container .user-form h2 {
+    padding: 1rem 0.5rem;
+    background-color: #317a9c;
+    color: white;
+    border-radius: 10px 10px 0 0;
+}
+
+.floating-form {
+    justify-self: center;
+    width: 70%;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.274);
+    border-bottom: 2px solid var(--main-color);
+    background-color: whitesmoke;
+}
+
+.floating-container {
+    position: absolute;
+    height: 95%;
+    width: 95%;
+    z-index: 1;
+    display: grid;
+    place-content: center;
+}
+
+.floating-container .floating-form div {
+    width: 70%;
+    padding: 1rem;
+    margin: 0 auto;
+    /* position: relative; */
+}
+
+
+.floating-container .floating-form div button {
+    /* position: absolute;
+    right: 0; */
+    margin-top: 1rem;
 }
 
 button {
@@ -106,13 +149,14 @@ button {
     border-radius: 10px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.274);
     cursor: pointer;
+
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
 }
 
 .dropdown-btn {
     padding: 0.25rem;
-    display: flex;
-    gap: 0.25rem;
-    align-items: center;
 }
 
 .login-button {
@@ -120,6 +164,25 @@ button {
     width: 100%;
     background-color: var(--footer-bg-color);
     color: whitesmoke;
+}
+
+.round-btn {
+    margin-top: 1rem;
+    border-radius: 50%;
+    background-color: var(--main-color);
+    color: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.329);
+    transition: all 0.2s ease;
+}
+
+.round-btn:hover {
+    background-color: white;
+    color: var(--main-color);
+}
+
+.add-user-btn {
+    position: absolute;
+    right: 0;
 }
 
 .submit-button {
@@ -131,9 +194,14 @@ button {
     
 }
 
-
+.btn-container{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    margin: 0;
+}
 .questions-container {
-    width: max(50%, 400px);
+    width: max(60%, 600px);
     margin: 0 auto;
     padding: 1rem 0 4rem;
 }
@@ -144,6 +212,7 @@ button {
     justify-content: space-evenly;
     gap: 0.5rem;
 }
+
 
 .question-section {
     padding: 1rem;
@@ -169,6 +238,12 @@ button {
     margin-top: 0.5rem;
 }
 
+.result-container {
+    width: max(80%, 700px);
+    margin: 0 auto;
+    padding: 1rem 0 4rem;
+}
+
 .sidebar-container {
     flex-grow: 1;
     display: grid;
@@ -182,12 +257,14 @@ button {
     grid-area: MM;
     justify-items: center;
     padding: 1rem;
+    position: relative;
+    transition: all 0.2s ease;
 }
 
 .sidebar {
     grid-area: SS;
     width: 80px;
-    background-color: #12171e;
+    background-color: var(--main-color);
     transition: all 0.25s ease;
 }
 
@@ -203,6 +280,7 @@ button {
     transition: all 0.2s ease;
     
 }
+
 
 .sidebar-menu ul {
     list-style-type: none;
@@ -257,7 +335,7 @@ button {
 
 .sidebar-menu ul li a:hover {
     background-color: whitesmoke;
-    color: #12171e;
+    color: var(--main-color);
 }
 
 .tooltip {
@@ -344,4 +422,38 @@ button {
     font-size: 1.75rem;
     font-weight: 600;
 }
+
+.listing-table {
+    font-size: 0.9rem;
+    border-collapse: collapse;
+    width: max(70%, 600px);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.205);
+    margin: 0 auto;
+    position: relative;
+    /* border-radius: ; */
+}
+
+.listing-table th, .listing-table td {
+    padding: 12px 15px;
+}
+
+.listing-table thead tr {
+    background-color: var(--main-color);
+    color: #ffffff;
+    text-align: left;
+}
+
+.listing-table tbody tr {
+    /* cursor: pointer; */
+    border-bottom: 1px solid #dddddd;
+}
+
+.listing-table tbody tr:nth-child(even) {
+    background-color: rgba(128, 128, 128, 0.308);
+}
+
+.listing-table tbody tr:last-child {
+    border-bottom: 2px solid var(--main-color);
+}
+
 

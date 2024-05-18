@@ -90,7 +90,7 @@ function UserLogin() {
                 <div className='login-header'>
                     <img src={logo} alt="company logo" width={135} height={135}/>
                 </div>
-                <form onSubmit={(e) => handleSubmit(e)} className="login-form">
+                <form onSubmit={(e) => handleSubmit(e)} className="user-form">
                     <div className="error-container">
                         <h4 className='error'>{error && error.message}</h4>
                     </div>
