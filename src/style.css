@@ -67,31 +67,6 @@ footer {
     justify-content: center;
 }
 
-.form-container {
-    display: block;
-
-}
-
-.form-container input, .form-container select{
-    width: 100%;
-    font-size: 16px;
-    padding: 0.75rem;
-    margin-top: 16px;
-    background-color: #dddddd;
-    border: none;
-    outline: none;
-}
-
-.form-container select{
-    border-radius: 5px;
-}
-
-.error-container {
-    text-align: center;
-    /* background-color: red; */
-    color: red;
-}
-
 .login {
     display: flex;
     flex-direction: column;
@@ -104,11 +79,84 @@ footer {
     margin: 0 auto;
 }
 
-.user-form{
-    width: 70%;
+
+
+.error-container {
+    text-align: center;
+    /* background-color: red; */
+    color: red;
 }
 
-.floating-container .user-form .form-header {
+
+
+.floating{
+    position: absolute;
+    height: 85vh;
+    width: 95%;
+    z-index: 1;
+}
+
+
+form { 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    /* margin-top: .25rem; */
+    /* justify-content: center; */
+}
+
+input, textarea {
+    font-size: 16px;
+    padding: 5px;
+    border: none;
+    outline: none;
+    font-family: sans-serif;
+    color: black;
+}
+
+input:focus, textarea:focus {
+    border-bottom: 2px solid var(--accent-color);
+}
+
+.user-rel input, .user-rel select{
+    width: 40%;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    margin: 0.25rem auto;
+}
+
+.form-content {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    padding: 0 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+
+.form-content li {
+    width: 80%;
+    list-style-type: none;
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    /* margin-left: 1rem; */
+}
+
+.form-content li input[type="text"] {
+    flex-grow: 1;
+    /* width: 60%; */
+}
+
+
+
+.header-fm {
     padding: 0.5rem;
     background-color: #317a9c;
     color: white;
@@ -118,41 +166,18 @@ footer {
     align-items: center;
 }
 
-.floating-form {
+.floating-fm {
     justify-self: center;
-    width: 70%;
+    width: 100%;
     height: 90%;
-    border-radius: 10px 10px 0 0;
+    margin: 0 auto;
+    border-radius: 0 0 10px 10px;
     box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.274);
     border-bottom: 2px solid var(--main-color);
-    background-color: whitesmoke;
-    opacity: 0.95;
+    background-color: rgb(213, 241, 241);
+    /* opacity: 0.95; */
 }
 
-.floating-container {
-    position: absolute;
-    height: 85vh;
-    width: 95%;
-    z-index: 1;
-    display: grid;
-    place-content: center;
-}
-
-.floating-container .floating-form .input-container {
-    width: 70%;
-    height: 80%;
-    padding: 1rem;
-    margin: 0 auto;
-    overflow-y: scroll;
-    /* position: relative; */
-}
-
-
-.floating-container .floating-form div button {
-    /* position: absolute;
-    right: 0; */
-    margin-top: 1rem;
-}
 
 button {
     font-size: 16px;
@@ -201,6 +226,22 @@ button {
     border-radius: 50%;
     transition: all 0.2s ease-out;
 
+}
+
+.add-btn {
+    padding: 0;
+    box-shadow: none;
+    background-color: var(--main-color);
+    color: white;
+    font-size: 1.25rem;
+    border-radius: 50%;
+    transition: all 0.2s ease-out;
+
+}
+
+.add-btn:hover {
+    background-color: white;
+    color: var(--main-color);
 }
 
 .cancel-btn:hover {
@@ -252,6 +293,13 @@ button {
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
+    width: 80%;
+    margin: 1rem auto 0;
+    box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.212);
+    padding: 1rem;
+    border-radius: 10px;
+    background-color: white;
+    border-bottom: 3px solid var(--main-color);
 }
 
 .question {

@@ -5,56 +5,109 @@ import ExamPreviewPage from '../components/exam-pages/ExamPreviewPage';
 import Header from "../components/Header"
 import { isAdminAuthenticated } from '../utils';
 import { MdCancel } from "react-icons/md"
-
+import { IoIosAddCircleOutline } from "react-icons/io"
+import { MdOutlineCancel } from "react-icons/md"
 
 export async function action({ request }) {
     const formData = await request.formData()
-    console.log(formData.get("question-2"))
+    console.log(formData.get("option-1A"))
     return null
 }
 
 
-function ExamOption() {
+function ExamOption({ questionId, optionId, removeOption }) {
+    function optionLetter(optionId){
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        return letters[optionId]
+    }
+    console.log(questionId, optionId)
+
+    function handleChange(event){
+        const { name } = event.target
+        console.log(name)
+    }
+
+    function handleClick(event){
+        event.preventDefault()
+        removeOption(optionId)
+    }
+
+
     return (
         <li>
             <input 
                 type="checkbox"
-                name='isTrue' 
+                name={`selector-${questionId}${optionLetter(optionId - 1)}`} 
             />
             <input
                 type="text"
-                name="optionValue"
-                placeholder="Option"
+                name={`option-${questionId}${optionLetter(optionId - 1)}`}
+                placeholder={`Option ${optionId}`}
+                onChange={e => handleChange(e)}
             />
+            <button
+                name=''
+                onClick={e => handleClick(e)}
+            >
+                <MdOutlineCancel size="1.5em"/>
+            </button>
         </li>
     );
 }
 
 function ExamQuestion({ questionId }) {
     const [optionCount, setOptionCount] = React.useState(1);
-    const [options, setOptions] = React.useState([<ExamOption key={0} />]);
+    const [options, setOptions] = React.useState([{id: 1}]);
 
     function handleClick() {
-        setOptionCount(prevCount => prevCount + 1);
-        setOptions(prevOptions => [
-            ...prevOptions,
-            <ExamOption key={optionCount} />
-        ]);
+        setOptionCount(prevCount => {
+            const newCount = prevCount + 1
+        });
+        setOptions(prevOptions => {
+            const optionId = prevOptions.length + 1
+            return [
+                ...prevOptions,
+                {id: optionId},
+            ]
+        });
     }
-    console.log(questionId)
+
+    function removeOption(optionId){
+        setOptions(prevOptions => {
+            console.log("deleting...", optionId)
+            if(prevOptions.length > 0){
+                const newOptions = prevOptions.filter(option => option.id !== optionId - 1)
+                const sortedOptions = newOptions.map((option, index) => {
+                    return {id: index + 1}
+                })
+                console.log(sortedOptions)
+                return sortedOptions
+            }else{
+                return prevOptions
+            }
+        })
+    }
 
     return (
-        <>
+        <div className='question-container'>
             <textarea
                 name={`question-${questionId}`}
+                rows={2}
                 placeholder="Enter Question"
             />
             <ul>
-                {options}
+                {options.map(
+                    option => <ExamOption 
+                                    key={option.id} 
+                                    questionId={questionId} 
+                                    optionId={option.id} 
+                                    removeOption={() => removeOption(option.id)}
+                                />
+                            )
+                }
             </ul>
-            <hr />
             <button onClick={handleClick}>Add option</button>
-        </>
+        </div>
     );
 }
 
@@ -63,54 +116,60 @@ function ExamQuestion({ questionId }) {
 
 function ExamCreateLayout({ formTrigger}) {
     const [questionCount, setQuestionCount] = React.useState(1)
-    const [questions, setQuestions] = React.useState([<ExamQuestion key={0} questionId={questionCount}/>])
+    const [questions, setQuestions] = React.useState([{id: 1}])
 
 
     function handleClick(event){
-        const {name} = event.target
-        if(name === "cancel-btn"){
-            formTrigger(false)
+        event.preventDefault()
+        const { name } = event.target.closest("button")
+        console.log(name)
+        if(name === "add"){
+            setQuestionCount(count => count + 1)
+            setQuestions(prevQuestions => {
+                const questionId = prevQuestions.length + 1
+                return [
+                    ...prevQuestions,
+                    {id: questionId},
+                    ]
+            })
         }
         else{
-            setQuestionCount(count => {
-                const newCount = count + 1
-                if(newCount < 2){
-                    setQuestions(prevQuestions => [
-                    ...prevQuestions,
-                        <ExamQuestion key={questionCount} questionId={newCount}/>
-                    ])
-                }
-                return newCount
-            })
-            if(questionCount > 2){
-                setQuestions(prevQuestions => [
-                ...prevQuestions,
-                    <ExamQuestion key={questionCount} questionId={questionCount}/>
-                ])
-
-            }
+            formTrigger(false)
         }
     }
 
     
     return (
         <>
-            <main className='questions-container'>
+            <div className='floating'>
                 {/* <div className="questions-form">
                     <ExamPreviewPage data={data} updateData={updateData}/>
                     <ExamCreatePage data={data} updateData={updateData}/>
                 </div> */}
-                <Form method='post'>
-                    {questions}
-                    <button>submit</button>
-                </Form>
-                <div className='btn-container'>
-                        <button onClick={e => handleClick(e)} name='add'>add</button>
-                        <button className='cancel-btn' onClick={e => handleClick(e)} name='cancel-btn'>
-                            <MdCancel size="1.5em"/>
-                        </button>
+                <div className='header-fm '>
+                    <h2>Create New Exam</h2>
+                    <button className='cancel-btn' onClick={handleClick}>
+                        <MdCancel size="1.5em"/>
+                    </button>
+                </div>
+                <Form method='post' className='floating-fm'>
+                    <div className='form-content'>
+                        {questions.map( question => <ExamQuestion key={question.id} questionId={question.id} />)}
+                        <div>
+                            <button 
+                                name="add" 
+                                className="action-btn"
+                                onClick={e => handleClick(e)}
+                            >
+                                <IoIosAddCircleOutline size="1.5em"/>
+                            </button>
+                        </div>
                     </div>
-            </main>
+                    <div className='btn-container'>
+                        <button>submit</button>
+                    </div>
+                </Form>
+            </div>
         </>
     )
 }
