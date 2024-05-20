@@ -85,8 +85,8 @@ export default function NewUserForm({formTrigger}){
                             <option value='team leader'>Team Leader</option>
                             <option value='agent'>Customer Care Agent</option>
                         </select>
+
                         <button>submit</button>
-                            
                     </div>
                 </Form>
             </div>
