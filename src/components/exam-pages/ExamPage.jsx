@@ -1,5 +1,5 @@
 import React, {createContext} from "react"
-import { useLoaderData, useNavigate, redirect } from "react-router-dom"
+import { useLoaderData, useNavigate, redirect, Form } from "react-router-dom"
 import Information from "../Information"
 import examination from "../../assets/examination.json"
 import Timer from "../Timer"
@@ -9,197 +9,146 @@ import { examSubmit, isAuthenticated } from "../../utils"
 import { retrieveData } from '../../utils'
 
 export async function loader() {
-    
-    if(isAuthenticated()){
-        return examination
-    }else{
-        return redirect("/")
+    const token = retrieveData()?.token
+    const headers = {
+        'Authorization': `Token ${token}`,
+        // 'Content-Type': 'application/json'
     }
-}
-
-
-
-function answerProcessor(answer){
-    const filteredArray = answer.filter(obj => Object.keys(obj)?.length !== 0 || obj.points !== 0)
-    return filteredArray
-}
-
-function timeStamp(){
-    // Create a new Date object with the current date and time
-    const currentDate = new Date();
-
-    // Get the individual components of the date and time
-    const year = currentDate.getFullYear(); // Get the year (e.g., 2024)
-    const month = currentDate.getMonth() + 1; // Get the month (0-11, add 1 to get the actual month)
-    const day = currentDate.getDate(); // Get the day of the month (1-31)
-    const hours = currentDate.getHours(); // Get the hour (0-23)
-    const minutes = currentDate.getMinutes(); // Get the minutes (0-59)
-    const seconds = currentDate.getSeconds(); // Get the seconds (0-59)
-    const milliseconds = currentDate.getMilliseconds(); // Get the milliseconds (0-999)
-
-    // Construct the datetime string in the desired format
-    const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
-
-    // Log the formatted datetime
-    console.log(formattedDateTime);
-    return formattedDateTime
-
-}
-
-
-
-function ExamPage() {
-    //const examination = useLoaderData()
-    const [points, setPoints] = React.useState([])
-    const [examQuestions, setExamQuestions] = React.useState(examination)
-    const [status, setStatus] = React.useState("idle")
-    const [confirmation, setConfirmation] = React.useState(false)
-    const [ error, setError ] = React.useState(null)
-
-    const navigate = useNavigate()
-
-    React.useEffect(() => {
-        const processedAnswer = answerProcessor(points)
-        setPoints(processedAnswer)
-
-        if(confirmation === false){
-                setStatus("idle")
+    const response = await fetch('http://localhost:8000/api/exam/14',
+       {
+            method: 'GET',
+            headers: headers
         }
+    )
+    const data = await response.json()
+    return data
+}
 
-    }, [confirmation])
 
-    function updatePoints(questionPoints){
+function ExamOption({ questionId, optionId, removeOption }) {
+    function optionLetter(optionId){
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        return letters[optionId]
+    }
+    console.log(questionId, optionId)
 
-        // Find the index of the existing point with the same ID
-        const existingIndex = points.findIndex(point => point.questionId === questionPoints.questionId);
-
-        if (existingIndex !== -1) {
-            // If the point exists, replace it with the new point
-            const updatedPoints = [...points];
-            updatedPoints[existingIndex] = questionPoints
-            setPoints(updatedPoints)
-        } else {
-            // If the point doesn't exist, add it to the points array
-            setPoints(prevPoints => [...prevPoints, questionPoints]);
-        }
+    function handleChange(event){
+        const { name } = event.target
+        console.log(name)
     }
 
     function handleClick(event){
-        const { name } = event.target
-        console.log(name)
-        if(name === "submit"){
-            setStatus("submitting")
-            setConfirmation(prevState => !prevState)
-            
-        }else{
-        }
-    }
-    
-    function handleSubmit(event){
-        event?.preventDefault()
-        // let totalPoints = 0
-        // Use reduce to iterate over the array and accumulate the sum of the updated values
-        const score = points.reduce((acc, pnt) => {
-            // Update the 'value' property of the current object and add it to the accumulator
-            return acc + pnt.points;
-        }, 0)
-
-        const totalScore = examQuestions.reduce((acc, pnt) => {
-            // Update the 'value' property of the current object and add it to the accumulator
-            return acc + pnt.points;
-        }, 0)
-
-        setStatus("idle")
-        const username = retrieveData().username
-        const time = timeStamp()
-        const resultData = {
-            username: username,
-            score: score,
-            timeStamp: time
-        }
-        console.log(resultData)
-        examSubmit(resultData)
-            .then(() =>  navigate(
-                                "/results", 
-                                { state: { 
-                                            score: score, 
-                                            totalScore: totalScore, 
-                                            exam: examQuestions 
-                                        }, 
-                                    replace: true
-                                } 
-                        )
-                )
-            .catch(err => setError(err))
+        event.preventDefault()
+        removeOption(optionId)
     }
 
-    const questions = examQuestions?.map( (question, index) => <Question key={index} question={question} setTotalPoints={updatePoints}/>)
-
-    
-//   React.useEffect(() => {
-//     // Fetch JSON data from file
-//     fetch(examination)
-//     setTotalPoints(prevPoints => prevPoints + examQuestions.points); // Set JavaScript objects to state
-//     }
-//     ,[]); // Empty dependency array to run only once on component mount
-
-// console.log(examQuestions)
 
     return (
+        <li>
+            <input 
+                type="checkbox"
+                name={`selector-${questionId}${optionLetter(optionId - 1)}`} 
+            />
+            <input
+                type="text"
+                name={`option-${questionId}${optionLetter(optionId - 1)}`}
+                placeholder={`Option ${optionId}`}
+                onChange={e => handleChange(e)}
+            />
+            <div
+                className='option-rem'
+                onClick={e => handleClick(e)}
+            >
+                <MdOutlineCancel size="1.5em"/>
+            </div>
+        </li>
+    );
+}
+
+function ExamQuestion({ questionId, removeQuestion }) {
+    const [optionCount, setOptionCount] = React.useState(0);
+    const [options, setOptions] = React.useState([{id: 1}]);
+
+    function handleClick(event) {
+        event.preventDefault()
+        const targetDiv = event.target.closest("div[data-name]")
+        const name = targetDiv? targetDiv.getAttribute('data-name'): null
+        console.log(name)
+        if(name === "question-del"){
+            removeQuestion(questionId)
+        }else{
+            setOptionCount(prevCount => prevCount + 1)
+            setOptions(prevOptions => {
+                const optionId = options.length + 1
+                return [
+                    ...prevOptions,
+                    {id: optionId},
+                ]
+            });
+        }
+    }
+
+    function removeOption(optionId){
+        setOptions(prevOptions => {
+            // console.log("deleting...", optionId)
+            if(prevOptions.length > 0){
+                const newOptions = prevOptions.filter(option => option.id !== optionId - 1)
+                // setOptionCount(prevCount => prevCount - 1)
+                const sortedOptions = newOptions.map((option, index) => {
+                    return {id: index + 1}
+                })
+                console.log(sortedOptions)
+                return sortedOptions
+            }else{
+                return prevOptions
+            }
+        })
+    }
+
+    return (
+        <div className='question-container'>
+            <div className='question'>
+                <textarea
+                    name={`question-${questionId}`}
+                    rows={1}
+                />
+                <div
+                    data-name="question-del"
+                    className='action-btn cancel-btn qn-rem'
+                    onClick={e => handleClick(e)}
+                >
+                    <TbTrashXFilled size="1.5em" name="trash"/>
+                </div>
+            </div>
+            <ul>
+                {options.map(
+                    option => <ExamOption 
+                                    key={option.id} 
+                                    questionId={questionId} 
+                                    optionId={option.id} 
+                                    removeOption={() => removeOption(option.id)}
+                                />
+                            )
+                }
+            </ul>
+            <div className='option-add' onClick={handleClick}>Add option</div>
+        </div>
+    );
+}
+
+function ExamPage(){
+    const data = useLoaderData()
+    const array = [...data]
+    console.log(array)
+    return(
         <>
-                {/* <div className="questions-container"> */}
-                {/* {
-                    started ? 
-                        <>
-                    <Timer submit={handleSubmit}/> */}
-                            {/* {
-                                confirmation? 
-                                        <Information 
-                                            action={handleSubmit} 
-                                            setConfirmation={setConfirmation} 
-                                            byPassing={false} 
-                                            process={"submit"}
-                                            error={error}
-                                        />
-                                    : 
-                                        ""  
-                            } */}
-                            <form 
-                                className="questions-form" 
-                                action="" 
-                                onSubmit={(e) => handleSubmit(e)}
-                            >
-                                <div className="form-content">
-                                    <>
-                                        {questions}
-                                    </>
-                                    <button 
-                                        className="submit-button" 
-                                        name="submit" 
-                                        onClick={(e) => handleClick(e)}
-                                    >
-                                        {status === "submitting"? "Submitting...":"Submit"}
-                                    </button>
-                                    
-                                </div>
-                            </form>
-                {/* </div> */}
-                    </>
-        //         :
-        //             <>
-        //                 <div className="start-container">
-        //                     <button 
-        //                         className="form-button" 
-        //                         name="start" 
-        //                         onClick={(e) => handleClick(e)}
-        //                     >
-        //                         Start Exam
-        //                     </button>
-        //                 </div>
-        //             </>
-        //     }
-        // </>
-        
+            <h2>exam page</h2>
+            <Form>
+                <div className="form-content">
+
+                </div>
+            </Form>
+        </>
     )
 }
 

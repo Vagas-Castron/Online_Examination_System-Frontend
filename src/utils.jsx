@@ -130,6 +130,8 @@ export const clearData = () => {
 };
 
 
+
+
 export function reformatFormData(formData) {
   const data = {
       title: formData.get('title'),
@@ -155,9 +157,9 @@ export function reformatFormData(formData) {
           } else {
               questions[questionId].text = value;
           }
-      } else if (optionMatch) {
-          const questionId = optionMatch[1];
-          const optionId = optionMatch[2];
+      } else if (selectorMatch) {
+          const questionId = selectorMatch[1];
+          const optionId = selectorMatch[2];
           if (!questions[questionId]) {
               questions[questionId] = {
                   text: '',
@@ -166,19 +168,28 @@ export function reformatFormData(formData) {
           }
           questions[questionId].options.push({
               id: optionId,
-              text: value,
-              correct: false,
+              text: "",
+              correct: value === "on"? true: false,
           });
-      } else if (selectorMatch) {
-          const questionId = selectorMatch[1];
-          const optionId = selectorMatch[2];
+      } else if (optionMatch) {
+          const questionId = optionMatch[1];
+          const optionId = optionMatch[2];
           if (questions[questionId]) {
-            const option = questions[questionId].options.find((option) => console.log("debug"))
-            console.log(optionId)
-            console.log(option)
+            const option = questions[questionId].options.find((option,) => {
+              return option.id == optionId
+            })
+            // console.log(optionId, optionId)
+            // console.log(option)
               if (option) {
-                  option.correct = true;
-              }
+                  option.text = value;
+              }else{
+                questions[questionId].options.push({
+                  id: optionId,
+                  text: value,
+                  correct: false,
+              });
+              } 
+              
           }
       }
   });

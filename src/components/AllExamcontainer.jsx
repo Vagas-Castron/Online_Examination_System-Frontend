@@ -33,7 +33,6 @@ export default function AllExamcontainer(){
         <>
             {/* {formTrigger? <ExamCreateLayout formTrigger={setFormTrigger}/>: ""} */}
             <div>
-                {console.log(data)}
                 <table className='listing-table'>
                     <thead>
                         <tr>
@@ -45,7 +44,7 @@ export default function AllExamcontainer(){
                         {data.map((d) => (
                             <tr>
                                 <td>
-                                    <Link to="" className='row-link'>
+                                    <Link to={`edit-exam/${d.exam_id}`} className='row-link'>
                                         {d.exam_title}
                                     </Link>
                                 </td>

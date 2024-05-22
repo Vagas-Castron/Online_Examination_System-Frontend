@@ -13,15 +13,6 @@ import { reformatFormData  } from '../utils';
 export async function action({ request }) {
     const formData = await request.formData()
     const data = reformatFormData(formData)
-    // let questions = []
-    // const data = {}
-    // const options = []
-    // const option = {}
-
-    // formData.forEach((value, key) => {
-    //     data[key] = value
-    // })
-    console.log(data)
 
     const token = retrieveData()?.token
     const headers = {
@@ -36,6 +27,7 @@ export async function action({ request }) {
             headers: headers,
             body: JSON.stringify(data)
         });
+        return redirect("/exam-creation")
     }catch(error){
         throw {message: "error"}
     }
@@ -48,7 +40,7 @@ function ExamOption({ questionId, optionId, removeOption }) {
         const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         return letters[optionId]
     }
-    console.log(questionId, optionId)
+    // console.log(questionId, optionId)
 
     function handleChange(event){
         const { name } = event.target
@@ -84,7 +76,7 @@ function ExamOption({ questionId, optionId, removeOption }) {
 }
 
 function ExamQuestion({ questionId, removeQuestion }) {
-    const [optionCount, setOptionCount] = React.useState(0);
+    const [optionCount, setOptionCount] = React.useState(1);
     const [options, setOptions] = React.useState([{id: 1}]);
 
     function handleClick(event) {
@@ -97,7 +89,7 @@ function ExamQuestion({ questionId, removeQuestion }) {
         }else{
             setOptionCount(prevCount => prevCount + 1)
             setOptions(prevOptions => {
-                const optionId = options.length + 1
+                const optionId = prevOptions.length + 1
                 return [
                     ...prevOptions,
                     {id: optionId},
@@ -115,7 +107,7 @@ function ExamQuestion({ questionId, removeQuestion }) {
                 const sortedOptions = newOptions.map((option, index) => {
                     return {id: index + 1}
                 })
-                console.log(sortedOptions)
+                console.log(newOptions)
                 return sortedOptions
             }else{
                 return prevOptions
@@ -159,18 +151,18 @@ function ExamQuestion({ questionId, removeQuestion }) {
 
 
 function ExamCreateLayout({ formTrigger}) {
-    const [questionCount, setQuestionCount] = React.useState(0)
+    const [questionCount, setQuestionCount] = React.useState(1)
     const [questions, setQuestions] = React.useState([{id: 1}])
     const navigate = useNavigate()
 
     function handleClick(event){
         event.preventDefault()
         const { name } = event.target.closest("button")
-        // console.log(event.target.closest("button"))
+        console.log(event.target.closest("button"))
         if(name === "add"){
             setQuestionCount(count => count + 1)
             setQuestions(prevQuestions => {
-                const questionId = questions.length + 1
+                const questionId = prevQuestions.length + 1
                 return [
                     ...prevQuestions,
                     {id: questionId},
@@ -184,9 +176,12 @@ function ExamCreateLayout({ formTrigger}) {
 
     function removeQuestion(questionId){
         setQuestions(prevQuestions => {
-            console.log("deleting...", questionId)
             if(prevQuestions.length > 0){
-                const newQuestions = prevQuestions.filter(question => question.id !== questionId - 1)
+                console.log("deleting...", questionId)
+                const newQuestions = prevQuestions.filter(question => {
+                    console.log(question.id, questionId)
+                    return question.id !== questionId - 1
+                })
                 // setQuestionCount(count => count - 1)
                 const sortedQuestions = newQuestions.map((question, index) => {
                     return {id: index + 1}
