@@ -122,12 +122,30 @@ textarea {
     flex-grow: 1;
 }
 
+.user-side textarea {
+    resize: none;
+}
+
+.user-side input:focus, .user-side textarea:focus {
+    border: none;
+}
+
 input:focus, textarea:focus {
     border-bottom: 2px solid var(--accent-color);
 }
 
 input[name="title"] {
     font-size: 1.25rem;
+}
+
+input[id="point-input"] {
+    /* margin-left: 80%; */
+    width: 10%;
+}
+
+.point-container {
+    display: flex;
+    justify-content: space-between;
 }
 
 .user-rel input, .user-rel select{
@@ -255,6 +273,7 @@ button {
     color: red;
     opacity: 0.2;
     transition: all .2s ease;
+    margin: 0.25rem;
 }
 
 .qn-rem:hover {
@@ -367,6 +386,7 @@ button {
 .question {
     display: flex;
     gap: 0.25rem;
+    align-items: flex-start;
 }
 
 .option-container {

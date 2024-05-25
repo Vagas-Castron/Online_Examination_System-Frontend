@@ -13,6 +13,7 @@ import { reformatFormData  } from '../utils';
 export async function action({ request }) {
     const formData = await request.formData()
     const data = reformatFormData(formData)
+    console.log(data)
 
     const token = retrieveData()?.token
     const headers = {
@@ -40,12 +41,7 @@ function ExamOption({ questionId, optionId, removeOption }) {
         const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         return letters[optionId]
     }
-    // console.log(questionId, optionId)
 
-    function handleChange(event){
-        const { name } = event.target
-        console.log(name)
-    }
 
     function handleClick(event){
         event.preventDefault()
@@ -61,9 +57,9 @@ function ExamOption({ questionId, optionId, removeOption }) {
             />
             <input
                 type="text"
+                id="text-input"
                 name={`option-${questionId}${optionLetter(optionId - 1)}`}
                 placeholder={`Option ${optionId}`}
-                onChange={e => handleChange(e)}
             />
             <div
                 className='option-rem'
@@ -75,9 +71,30 @@ function ExamOption({ questionId, optionId, removeOption }) {
     );
 }
 
-function ExamQuestion({ questionId, removeQuestion }) {
+function ExamQuestion({ questionId, removeQuestion}) {
     const [optionCount, setOptionCount] = React.useState(1);
     const [options, setOptions] = React.useState([{id: 1}]);
+    const [point, setPoint] = React.useState(1)
+
+    React.useEffect(() => {
+        const pointInput = document.querySelector("#point-input")
+        function inputConditioning(e){
+            if(e.keyCode === 189 || e.keyCode === 109 || e.keyCode === 40 || e.keyCode === 13){
+                e.preventDefault()
+                return false
+            }
+        }
+
+        if(pointInput){
+            pointInput.addEventListener( 'keydown', inputConditioning)
+        }
+
+        return () => {
+            if(pointInput){
+                pointInput.removeEventListener("keydown", inputConditioning)
+            }
+        }
+    }, [])
 
     function handleClick(event) {
         event.preventDefault()
@@ -117,12 +134,23 @@ function ExamQuestion({ questionId, removeQuestion }) {
 
     return (
         <div className='question-container'>
+            <div className="point-container">
+                <span></span>
+            </div>    
             <div className='question'>
                 <textarea
                     name={`question-${questionId}`}
                     rows={1}
                     placeholder="Enter Question"
                 />
+                <input
+                        type='number'
+                        name={`point-${questionId}`}
+                        id="point-input"
+                        min={1}
+                        max={10}
+                        placeholder='Point'
+                    />
                 <div
                     data-name="question-del"
                     className='action-btn cancel-btn qn-rem'
@@ -152,6 +180,7 @@ function ExamQuestion({ questionId, removeQuestion }) {
 
 function ExamCreateLayout({ formTrigger}) {
     const [questionCount, setQuestionCount] = React.useState(1)
+    const [totalScore, setTotalScore] = React.useState(0)
     const [questions, setQuestions] = React.useState([{id: 1}])
     const navigate = useNavigate()
 
@@ -232,7 +261,7 @@ function ExamCreateLayout({ formTrigger}) {
                             {questions.map( 
                                 question => <ExamQuestion 
                                                 key={question.id} 
-                                                questionId={question.id} 
+                                                questionId={question.id}
                                                 removeQuestion={() => removeQuestion(question.id)}/>
                                 )
                             }

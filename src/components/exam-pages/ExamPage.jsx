@@ -172,6 +172,7 @@ function ExamQuestion({ question, questionId, removeQuestion }) {
                     readOnly={true}
                     rows={1}
                 />
+                <span>{question.point} Points</span>
                 {   !question && <div
                                     data-name="question-del"
                                     className='action-btn nopad-btn qn-rem'
@@ -201,7 +202,7 @@ function ExamPage(){
     // const [ score, setScore ] = React.useState(0)
     const navigate = useNavigate()
     const examData = useLoaderData()
-
+    console.log(examData)
     function handleSubmit(event){
         event.preventDefault()
         let score = 0
@@ -216,11 +217,12 @@ function ExamPage(){
         console.log(score)
         const data = {
             username: retrieveData().username,
-            exam: examData.title,
+            exam_id: examData.exam_id,
             score: score
         }
+        console.log(data)
         const token = retrieveData().token
-        fetch('http://localhost:8000/api/exam/result/', {
+        fetch('http://localhost:8000/api/exam/result', {
             method: "POST",
             headers: {
                 'Content-Type': "application/json",
@@ -228,14 +230,14 @@ function ExamPage(){
             },
             body: JSON.stringify(data)
         })
-        .then( data => navigate("/results"))
+        // .then( data => navigate("/results"))
         .catch(error => console.log(error.message))
     }
 
     return(
         <>
             <Form method="post" onSubmit={ e => handleSubmit(e)}>
-                <div className="form-content">
+                <div className="form-content user-side">
                 <div className="question-container">
                     <ul>
                         <li>
@@ -247,7 +249,7 @@ function ExamPage(){
                             />
                             <div>
                                 <span>Timer: </span>
-                                <span>15 Min</span>
+                                <span>{examData.timer} Min</span>
                             </div>
                         </li>
                     </ul>

@@ -12,7 +12,7 @@ function StatisticsComponent() {
                         <div class="flex-wrapper">
                             <div class="single-chart">
                                 <div >
-                                    <svg viewBox="0 0 36 36" class="circular-chart red">
+                                    <svg viewBox="0 0 36 36" class="circular-chart purple">
                                     <path class="circle-bg"
                                         d="M18 2.0845
                                         a 15.9155 15.9155 0 0 1 0 31.831
@@ -27,12 +27,12 @@ function StatisticsComponent() {
                                     <text x="18" y="20.35" class="percentage">{50}</text>
                                     </svg>
                                 </div>
-                                <div>Wrong Answer</div>
+                                <div>Total Points</div>
                             </div>
                             
                             <div class="single-chart">
                                 <div >
-                                    <svg viewBox="0 0 36 36" class="circular-chart green">
+                                    <svg viewBox="0 0 36 36" class="circular-chart orange">
                                     <path class="circle-bg"
                                         d="M18 2.0845
                                         a 15.9155 15.9155 0 0 1 0 31.831
@@ -47,12 +47,12 @@ function StatisticsComponent() {
                                     <text x="18" y="20.35" class="percentage">score</text>
                                     </svg>
                                 </div>
-                                <div>Correct Answer</div>
+                                <div>Scored Points</div>
                             </div>
 
                             <div class="single-chart">
                                 <div >
-                                    <svg viewBox="0 0 36 36" class="circular-chart blue">
+                                    <svg viewBox="0 0 36 36" class="circular-chart red">
                                     <path class="circle-bg"
                                         d="M18 2.0845
                                         a 15.9155 15.9155 0 0 1 0 31.831
@@ -67,7 +67,7 @@ function StatisticsComponent() {
                                     <text x="18" y="20.35" class="percentage">svsd</text>
                                     </svg>
                                 </div>
-                                <div>Score</div>
+                                <div>Performance</div>
                             </div>
                         </div>
                     </div>

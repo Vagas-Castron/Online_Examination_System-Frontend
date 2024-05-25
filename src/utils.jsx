@@ -144,24 +144,39 @@ export function reformatFormData(formData) {
   
   formData.forEach((value, key) => {
       const questionMatch = key.match(/^question-(\d+)$/);
+      const pointMatch = key.match(/^point-(\d+)$/)
       const optionMatch = key.match(/^option-(\d+)([A-Z])$/);
       const selectorMatch = key.match(/^selector-(\d+)([A-Z])$/);
 
-      if (questionMatch) {
+       if(pointMatch){
+        const questionId = pointMatch[1]
+        if(!questions[questionId]){
+          console.log(key, value)
+            questions[questionId] = {
+              point: value === 0? 1: (value > 10? 10: value),
+              text: "",
+              options: []
+            }
+        }else {
+          questions[questionId].point = value
+        }
+      }else if (questionMatch) {
           const questionId = questionMatch[1];
           if (!questions[questionId]) {
               questions[questionId] = {
+                  point: 0,
                   text: value,
                   options: [],
               };
           } else {
               questions[questionId].text = value;
           }
-      } else if (selectorMatch) {
+      }else if (selectorMatch) {
           const questionId = selectorMatch[1];
           const optionId = selectorMatch[2];
           if (!questions[questionId]) {
               questions[questionId] = {
+                  point: 0,
                   text: '',
                   options: [],
               };
@@ -178,8 +193,6 @@ export function reformatFormData(formData) {
             const option = questions[questionId].options.find((option,) => {
               return option.id == optionId
             })
-            // console.log(optionId, optionId)
-            // console.log(option)
               if (option) {
                   option.text = value;
               }else{
@@ -196,6 +209,7 @@ export function reformatFormData(formData) {
 
   Object.keys(questions).forEach(questionId => {
       data.questions.push({
+          point: questions[questionId].point,
           text: questions[questionId].text,
           options: questions[questionId].options,
       });
