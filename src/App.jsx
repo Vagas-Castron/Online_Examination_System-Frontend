@@ -12,7 +12,7 @@ import ContentLayout from "./layouts/ContentLayout"
 import ExamCreationOptions from "./components/ExamCreationOptions"
 import AllExamcontainer, {loader as allExamLoader} from "./components/AllExamcontainer"
 import AllUsersContainer, {loader as allUserLoader} from "./components/AllUsersContainer"
-import {  action as userAction } from "./components/NewUserForm"
+import {  action as userAction } from "./components/UserCreation"
 import ExamEditContainer from "./components/ExamEditContainer"
 
 // loader={examLoader}
@@ -22,7 +22,7 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<MainLayout />}>
           <Route index element={<UserLogin />}/>
-          <Route element={<ContentLayout />} errorElement={<h1>Error Occured</h1>}>
+          <Route element={<ContentLayout />} >
             <Route path="dashboard" element={<h1>Dashboard Goes Here</h1>} />
             <Route path="exam" element={<ExamPage />} loader={examLoader} errorElement={<h1>Error Occured</h1>}/>
             <Route path="exam-creation" element={<AllExamcontainer/>} loader={allExamLoader}  />
@@ -30,6 +30,8 @@ function App() {
             <Route path="exam-creation/edit-exam/:id" element={<ExamEditContainer />} />
             <Route path="results" element={<Results/>} loader={resultsLoader} />
             <Route path="user-management" element={<AllUsersContainer />} loader={allUserLoader} action={userAction} />
+            {/* <Route path="user-management" element={<AllUsersContainer />} loader={allUserLoader} action={userAction} />
+            <Route path="user-management" element={<AllUsersContainer />} loader={allUserLoader} action={userAction} /> */}
           </Route>
       </Route>
       

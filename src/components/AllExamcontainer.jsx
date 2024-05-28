@@ -48,7 +48,7 @@ export default function AllExamcontainer(){
                         {data.map((d) => (
                             <tr>
                                 <td>
-                                    <Link to={`edit-exam/${d.exam_id}`} className='row-link'>
+                                    <Link to="" className='row-link'>
                                         {d.exam_title}
                                     </Link>
                                 </td>
@@ -65,3 +65,5 @@ export default function AllExamcontainer(){
         </>
     )
 }
+
+// {`edit-exam/${d.exam_id}`}

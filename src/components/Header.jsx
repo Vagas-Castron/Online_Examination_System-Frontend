@@ -10,13 +10,13 @@ import { TiThMenu } from "react-icons/ti";
 import { LuLogOut } from "react-icons/lu";
 
 function Header() {
-    const [username, setUsername] = React.useState()
+    const [userName, setUserName] = React.useState()
     const location = useLocation();
     const navigate = useNavigate()
 
     React.useEffect(() =>{
         console.log(location)
-            setUsername(retrieveData()?.username);
+            setUserName(`${retrieveData()?.first_name} ${retrieveData()?.last_name}`);
         
     }, [location])
 
@@ -42,8 +42,8 @@ function Header() {
                                         <span>
                                             <img src={userImage} alt="user image" width={25} height={25} />
                                         </span>
-                                        <span>
-                                            {username}
+                                        <span className="username">
+                                            {userName}
                                         </span>
                                         <span>
                                             <img src={arrowImage} alt="user image" width={25} height={25} />

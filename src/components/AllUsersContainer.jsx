@@ -1,8 +1,9 @@
 import React from 'react'
-import { useLoaderData, Link, redirect } from 'react-router-dom'
+import { useLoaderData, Link, redirect, useLocation } from 'react-router-dom'
 import { isAuthenticated, retrieveData } from '../utils'
 import { TiUserAdd } from "react-icons/ti"
-import NewUserForm from './NewUserForm'
+import UserCreation from './UserCreation'
+import UserEdit from './UserEdit'
 
 
 // export async function action(){
@@ -33,19 +34,24 @@ export async function loader(){
 export default function AllUsersContainer(){
     const [formTrigger, setFormTrigger] = React.useState(false)
     const data = useLoaderData()
-    const list = data.map((d)=> (<div>{d.create}</div>))
+    const location = useLocation()
+    const username = location.state
 
     function handleClick(event){
-        // const { id } = event.target
-        // console.log(event.target)
         setFormTrigger( prevState => !prevState)
     }
 
     return (
         <>
-            {
-                formTrigger? <NewUserForm formTrigger={setFormTrigger}/>: ''
+            
+            { formTrigger? <UserCreation formTrigger={setFormTrigger}/>: ''}
+            { 
+                username && <UserEdit 
+                                formTrigger={setFormTrigger} 
+                                userData={data.filter(user => user.username === username)}
+                            />
             }
+            
             <div>
                 <table className='listing-table'>
                     <thead>
@@ -57,10 +63,10 @@ export default function AllUsersContainer(){
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map((d) => (
-                            <tr>
+                        {data.map((d, index) => (
+                            <tr key={index}>
                                 <td>
-                                    <Link to="" className='row-link'>
+                                    <Link to="/user-management" state={d.username} className='row-link'>
                                         {d.username}
                                     </Link>
                                 </td>

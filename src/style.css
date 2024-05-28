@@ -53,18 +53,23 @@ header {
     gap: 0.25rem;
 }
 
+.header-nav ul .dropdown-btn .username{
+    padding-bottom: 5px;
+}
+
 .dropdown {
     position: relative;
-    font-size: 14px;
+    font-size: 16px;
     transition: all 0.2s ease;
 }
+
 
 .dropdown ul {
     display: none;
     position: absolute;
     top: 100%;
     width: 100%;
-    padding-top: 1.5rem;
+    padding-top: 0.5rem;
 }
 
 .dropdown ul li {
@@ -74,7 +79,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 1.5rem;
+    gap: 7.5%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.219);
     transition: all 0.2s ease;
 
@@ -415,7 +420,7 @@ button {
     justify-content: space-between;
     align-items: center;
     margin: 0 auto;
-    width: max(70%, 500px)
+    width: 100%
 }
 .questions-container {
     width: max(60%, 600px);

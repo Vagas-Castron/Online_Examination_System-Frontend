@@ -7,10 +7,12 @@ import { FaUser } from "react-icons/fa"
 import { BsFillFileBarGraphFill } from "react-icons/bs"
 import { BsFileEarmarkBarGraphFill } from "react-icons/bs"
 import { TiThMenu } from "react-icons/ti";
+import { retrieveData } from "../utils"
 
 
 export default function Sidebar() {
-
+    const status = retrieveData().status
+    console.log(status)
     return (
         <div className="sidebar-menu">
             <div className="top">
@@ -44,18 +46,22 @@ export default function Sidebar() {
                     </NavLink>
                     <span className="tooltip">Exam</span>
                 </li>
-                <li>
-                    <NavLink 
-                            to="exam-creation" 
-                            className={({isActive}) => {
-                                return isActive? "active-link": ""
-                            }}
-                    >
-                        <IoCreate size="25px" className="icon"/>
-                        <span className="menu-item-name">Compose</span>
-                    </NavLink>
-                    <span className="tooltip">Compose</span>
-                </li>
+                {
+                    status === "administrator" 
+                    && 
+                    <li>
+                        <NavLink 
+                                to="exam-creation" 
+                                className={({isActive}) => {
+                                    return isActive? "active-link": ""
+                                }}
+                        >
+                            <IoCreate size="25px" className="icon"/>
+                            <span className="menu-item-name">Compose</span>
+                        </NavLink>
+                        <span className="tooltip">Compose</span>
+                    </li>
+                }
                 <li>
                     <NavLink 
                         to="Results"
@@ -68,18 +74,22 @@ export default function Sidebar() {
                     </NavLink>
                     <span className="tooltip">Results</span>
                 </li>
-                <li>
-                    <NavLink 
-                        to="user-management"
-                        className={({isActive}) => {
-                            return isActive? "active-link": ""
-                        }}
-                    >
-                        <FaUser size="25px" className="icon"/>
-                        <span className="menu-item-name">Users</span>
-                    </NavLink>
-                    <span className="tooltip">Users</span>
-                </li>
+                { 
+                    status !== "agent" 
+                        &&   
+                    <li>
+                        <NavLink 
+                            to="user-management"
+                            className={({isActive}) => {
+                                return isActive? "active-link": ""
+                            }}
+                        >
+                            <FaUser size="25px" className="icon"/>
+                            <span className="menu-item-name">Users</span>
+                        </NavLink>
+                        <span className="tooltip">Users</span>
+                    </li>
+                }
             </ul>
         </div>
     )

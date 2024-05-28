@@ -165,7 +165,6 @@ function Results() {
     const [ clicked, setClicked ] = React.useState(true)
 
 
-    const timestamp = "2024-05-26T06:37:15.685584Z";
     const date = new Date(data.submitted);
     const formattedDate = date.toLocaleString('en-US', {
         year: 'numeric',
@@ -185,7 +184,9 @@ function Results() {
     }
 
     return(
-        <form>
+        
+            data !== undefined ?
+            <form>
             <div className="header-fm">
                 <h1>Results</h1> 
                 <div>
@@ -240,6 +241,9 @@ function Results() {
                 {/* <button className="form-button" name="finish" onClick={(e) => handleClick(e)}>Finish</button> */}
             </div>
         </form>
+        :
+        <h2>No Data</h2>
+   
     )
 }
 

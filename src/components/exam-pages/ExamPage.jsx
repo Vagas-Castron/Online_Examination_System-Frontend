@@ -208,6 +208,7 @@ function ExamPage(){
     // const [ score, setScore ] = React.useState(0)
     const navigate = useNavigate()
     const examData = useLoaderData()
+    const status = retrieveData().status
     console.log(examData)
     function handleSubmit(event){
         event.preventDefault()
@@ -272,10 +273,14 @@ function ExamPage(){
                                     )
                         }
                     </ul>
-                    <div className='btn-container'>
-                        <span></span>
-                        <button>submit</button>
-                    </div>
+                    {
+                        status ==="agent"
+                        &&
+                        <div className='btn-container'>
+                            <span></span>
+                            <button>submit</button>
+                        </div>
+                    }
                 </div>
             </Form>
         </>
