@@ -8,6 +8,8 @@ import { BsFillFileBarGraphFill } from "react-icons/bs"
 import { BsFileEarmarkBarGraphFill } from "react-icons/bs"
 import { TiThMenu } from "react-icons/ti";
 import { retrieveData } from "../utils"
+import userImage from "../assets/user-profile.png"
+import logo from "../assets/official logo.png"
 
 
 export default function Sidebar() {
@@ -15,11 +17,20 @@ export default function Sidebar() {
     console.log(status)
     return (
         <div className="sidebar-menu">
-            <div className="top">
+            {/* <div className="logo-container">
+                <img src={logo} alt="company logo" width={100} height={100}/>
+                <label className="menu-btn" >
+                    <input type="checkbox" className="btn" id="toggleBtn"/>
+                </label>
+            </div> */}
+            {/* <div className="top">
                 <span className="description">Menu</span>
-                <button className="menu-btn" id="toggleBtn">
-                <TiThMenu />
-                </button>
+                <label className="menu-btn" >
+                    <input type="checkbox" className="btn" id="toggleBtn"/>
+                </label>
+            </div> */}
+            <div className="hero">
+                <img src={userImage} alt="" width={50} height={50} />
             </div>
             <ul>
                 <li>
@@ -28,7 +39,7 @@ export default function Sidebar() {
                         className={({isActive}) => {
                             return isActive? "active-link": ""
                         }}
-                    >
+                    >   
                         <MdSpaceDashboard size="25px" className="icon"/>
                         <span className="menu-item-name">Dashboard</span>
                     </NavLink>

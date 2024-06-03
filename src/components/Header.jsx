@@ -28,38 +28,42 @@ function Header() {
 
     return (
         <header className="header-container">
-            <div className="logo-container">
-
+            <div className="logo-subheader">
                 <img src={logo} alt="company logo" width={100} height={100}/>
             </div>
-            <div className="nav-container">
-                <nav className="header-nav">
-                    <ul>
-                        <>
-                            <li>
-                                <div className="dropdown">
-                                    <div className="dropdown-btn">
-                                        <span>
-                                            <img src={userImage} alt="user image" width={25} height={25} />
-                                        </span>
-                                        <span className="username">
-                                            {userName}
-                                        </span>
-                                        <span>
-                                            <img src={arrowImage} alt="user image" width={25} height={25} />
-                                        </span>
+            <div className="nav-subheader">
+                <label className="menu-btn" >
+                    <input type="checkbox" className="btn" id="toggleBtn"/>
+                </label>
+                <div className="nav-container">
+                    <nav className="header-nav">
+                        <ul>
+                            <>
+                                <li>
+                                    <div className="dropdown">
+                                        <div className="dropdown-btn">
+                                            <span>
+                                                <img src={userImage} alt="user image" width={25} height={25} />
+                                            </span>
+                                            <span className="username">
+                                                {userName}
+                                            </span>
+                                            <span>
+                                                <img src={arrowImage} alt="user image" width={25} height={25} />
+                                            </span>
+                                        </div>
+                                        <ul className="menu-items">
+                                            <li onClick={handleClick}>
+                                                <LuLogOut size="1.5em"/>
+                                                <span>Log out</span>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <ul className="menu-items">
-                                        <li onClick={handleClick}>
-                                            <LuLogOut size="1.5em"/>
-                                            <span>Log out</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li> 
-                        </>
-                    </ul>
-                </nav>
+                                </li> 
+                            </>
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </header>
     )

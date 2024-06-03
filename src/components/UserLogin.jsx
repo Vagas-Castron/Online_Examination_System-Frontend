@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from 'react';
 import { useNavigate, useLocation } from "react-router-dom"
 import { authentication, verifyToken, storeData, retrieveData } from "../utils"
-import logo from "../assets/official logo.png"
+import logo from "../assets/official login logo.png"
 import LoadingComponent from './LoadingComponent';
 
 
@@ -92,7 +92,7 @@ function UserLogin() {
         <>
             { status === "submitting"? <LoadingComponent/>: ""}
             {/* <div className='form-container login'> */}
-                <form onSubmit={(e) => handleSubmit(e)} className='floating-fm user-rel user-in'>
+                <form onSubmit={(e) => handleSubmit(e)} className='floating-fm user-rel log-in'>
                     <div className='login-header'>
                         <img src={logo} alt="company logo" width={135} height={135}/>
                     </div>

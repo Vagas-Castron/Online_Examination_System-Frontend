@@ -50,6 +50,10 @@ export default function UserCreation({ formTrigger }) {
             return navigate("/user-management")
         }
     })
+
+    function handleChange() {
+        sete
+    }
     
     return(
         <>

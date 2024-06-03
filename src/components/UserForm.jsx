@@ -37,12 +37,18 @@ import { MdCancel } from "react-icons/md"
 
 
 export default function UserForm({formTrigger, userInfo, setChanges, submit, handleDelete, error}){
+    const [ formError, setFormError ] = React.useState(error)
     const navigate = useNavigate()
     // const err = {...error}
-    console.log(error)
+    console.log(formError)
     function handleClick(event){
         formTrigger(false)
         navigate("/user-management")
+    }
+
+    function handleChange(e){
+        console.log("changes")
+        setFormError(error => null)
     }
 
     return (
@@ -64,8 +70,8 @@ export default function UserForm({formTrigger, userInfo, setChanges, submit, han
                 </div>
                {
                     userInfo?
-                        <Form method="post" className='user-rel' onSubmit={e => submit(e)}>
-                            <div className="form-content">
+                        <Form method="post" className='' onSubmit={e => submit(e)}>
+                            <div className="user-fm">
                                 <input 
                                     type='text'
                                     name='username'
@@ -121,35 +127,44 @@ export default function UserForm({formTrigger, userInfo, setChanges, submit, han
                             </div>
                         </Form>
                         :
-                        <Form method="post" className='user-rel'>
-                            <div className="form-content">
+                        <Form method="post" className=''>
+                            <div className="user-fm">
 
                                 <input 
                                     type='text'
                                     name='username'
                                     placeholder='Username'
+                                    // onChange={e => handleChange(e)}
                                 />
                                 <input
                                     type='text'
                                     name='first_name'
                                     placeholder='First Name'
+                                    // onChange={e => handleChange(e)}
                                 />
                                 <input
                                     type='text'
                                     name='last_name'
                                     placeholder='Last Name'
+                                    // onChange={e => setChanges(e)}
                                 />
                                 <input
                                     type='password'
                                     name='password'
                                     placeholder='Password'
+                                    // onChange={e => handleChange(e)}
                                 />
                                 <input
                                     type='password'
                                     name='confirm_password'
                                     placeholder='Confirm Password'
+                                    // onChange={e => handleChange(e)}
                                 />
-                                <select name="status" id="">
+                                <select 
+                                    name="status" 
+                                    id="" 
+                                    // onChange={e => handleChange(e)}
+                                >
                                     <option value=''>--Choose Status--</option>
                                     <option value='administrator'>Administrator</option>
                                     <option value='quality analyst'>Quality Analyst</option>
