@@ -81,24 +81,26 @@ npm run dev
 App runs at:
 
 http://localhost:5173
+
 🎯 Features
+
 Examiner Interface
 
-Create exams
+1. Create exams
 
-Add questions and answers
+2. Add questions and answers
 
-View submitted results
+3. View submitted results
 
-Examinee Interface
+4. Examinee Interface
 
-View available exams
+5. View available exams
 
-Attempt questions
+6. Attempt questions
 
-Submit answers
+7. Submit answers
 
-View scores
+8. View scores
 
 📌 Future Improvements
 
